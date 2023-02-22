@@ -8,12 +8,14 @@ import {Images} from '../assets';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Route, StackParamList} from '../navigation/AppNavigation';
+import {Text} from '../component/Text';
+import {fonts} from '../style/Fonts';
 
 export const SplashScreen: React.FC = observer(() => {
   const {replace} = useNavigation<StackNavigationProp<StackParamList>>();
 
   useEffect(() => {
-    checkAndNavigate();
+    // checkAndNavigate();
   }, []);
 
   const checkAndNavigate = async () => {
@@ -27,10 +29,11 @@ export const SplashScreen: React.FC = observer(() => {
       <Box
         flex={1}
         justifyContent={'center'}
-        alignItems={'center'}>
+        alignItems={'center'}
+        backgroundColor={'bgColor'}>
         <Image
-          height={DeviceHelper.calculateHeightRatio(200)}
-          width={DeviceHelper.calculateWidthRatio(200)}
+          height={DeviceHelper.calculateHeightRatio(250)}
+          width={DeviceHelper.calculateWidthRatio(250)}
           source={Images.logo}
         />
       </Box>

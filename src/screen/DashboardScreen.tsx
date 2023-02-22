@@ -5,11 +5,7 @@ import {Screen} from '../component/Screen';
 import {HomeHeader} from '../HomeHeader/HomeHeader';
 import {FloatingButton} from '../component/Dashboard/FloatingButton';
 import {DashboardCell} from '../component/Dashboard/DashboardCell';
-import {
-  addMilkEntry,
-  getMilkEntry,
-  getMilkEntryByFilter,
-} from '../RealmDatabase/MilkEntryRealm';
+import {addMilkEntry} from '../RealmDatabase/MilkEntryRealm';
 import moment from 'moment';
 import {userFactory} from '../factory/UserFactory';
 import {MilkEntryList} from '../model/MilkEntryList';
@@ -18,6 +14,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../navigation/AppNavigation';
 import {DateRenderPickers} from '../component/DateRenderPicker/DateRenderPickers';
 import {ScrollView} from 'react-native';
+import {Text} from '../component/Text';
 
 export const DashboardScreen: React.FC = observer(() => {
   const {navigation} = useNavigation<StackNavigationProp<StackParamList>>();
@@ -32,12 +29,12 @@ export const DashboardScreen: React.FC = observer(() => {
   const [openStart, setOpenStart] = useState(false);
   const [openEnd, setOpenEnd] = useState(false);
   const [filterDataView, setfilterDataView] = useState(true);
-
+  const [total, setTotal] = useState(0);
+  const [filter, setFilter] = useState<MilkEntryList>(new MilkEntryList());
   const [milkListItems, setmilkListItems] = useState<MilkEntryList>(
     new MilkEntryList(),
   );
 
-  const [filter, setFilter] = useState<MilkEntryList>(new MilkEntryList());
   console.log(
     'milkListItems',
     milkListItems.map(item => item.dateEntry),
@@ -47,7 +44,7 @@ export const DashboardScreen: React.FC = observer(() => {
     addMilkEntry(date, liter, prize, fat, totals);
     setTimeout(() => {
       fetchMilkList();
-    }, 1000);
+    }, 100);
   };
 
   const fetchMilkList = () => {
@@ -65,6 +62,10 @@ export const DashboardScreen: React.FC = observer(() => {
     milkListItems;
   }, []);
 
+  setTimeout(() => {
+    totalMultiplay();
+  }, 1000);
+
   const startEndDateFilter = () => {
     const data = milkListItems.filter(
       (item: any) =>
@@ -73,9 +74,17 @@ export const DashboardScreen: React.FC = observer(() => {
         moment(item.dateEntry).format('YYYY-MM-DD') <=
           moment(endDate).format('YYYY-MM-DD'),
     );
-    console.log('datessss', data);
     setFilter(data);
     return data;
+  };
+  const totalMultiplay = () => {
+    let sum = 0;
+    console.log(
+      'filter',
+      filter.map(item => item.dateEntry),
+    );
+    filter.map(item => (sum += item.totalEntry));
+    setTotal(sum);
   };
 
   return (
@@ -172,6 +181,13 @@ export const DashboardScreen: React.FC = observer(() => {
             setPrize('');
           }}
         />
+        {!filterDataView && (
+          <Box backgroundColor={'primary'} alignItems={'center'}>
+            <Text color={'bgColor'} fontSize={30}>
+              Total:{total}
+            </Text>
+          </Box>
+        )}
       </Box>
     </Screen>
   );

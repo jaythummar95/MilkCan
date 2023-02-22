@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {Box} from '../Box';
 import {Text} from '../Text';
@@ -21,12 +21,6 @@ export const DashboardCell: React.FC<DashboardCellProps> = observer(
       {name: 'Prise'},
       {name: 'Total'},
     ];
-
-    console.log(
-      'filterList',
-      filterList.map(item => item.dateEntry),
-    );
-    console.log('ismilklist', ismilkList);
 
     const testView = (text: any) => {
       return (
