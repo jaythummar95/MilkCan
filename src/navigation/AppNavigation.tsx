@@ -5,11 +5,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {SplashScreen} from '../screen/SplashScreen';
 import {DashboardScreen} from '../screen/DashboardScreen';
 import {StartEndDateFilterScreen} from '../screen/StartEndDateFilterScreen';
+import { HistoryScreen } from "../screen/HistoryScreen";
 
 export type StackParamList = {
   SplashScreen: undefined;
   DashboardScreen: undefined;
   StartEndDateFilterScreen: undefined;
+  HistoryScreen: undefined;
 };
 const Stack = createStackNavigator<StackParamList>();
 
@@ -17,6 +19,7 @@ export enum Route {
   Splash = 'SplashScreen',
   Dashboard = 'DashboardScreen',
   StartEndDateFilter = 'StartEndDateFilterScreen',
+  History = 'HistoryScreen',
 }
 
 export const AppNavigation: React.FC = observer(() => {
@@ -33,6 +36,7 @@ export const AppNavigation: React.FC = observer(() => {
           name={Route.StartEndDateFilter}
           component={StartEndDateFilterScreen}
         />
+        <Stack.Screen name={Route.History} component={HistoryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
