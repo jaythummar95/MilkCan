@@ -13,6 +13,7 @@ export class Storage {
     region: 'region',
     group: 'group',
     cmsDto: 'cmsDto',
+    fatPrice: 'fatPrice',
   });
   static async setItemAsync(key: string, value: string): Promise<void> {
     await AsyncStorage.setItem(key, value);

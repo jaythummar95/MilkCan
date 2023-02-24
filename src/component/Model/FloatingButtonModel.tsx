@@ -9,7 +9,7 @@ import {DeviceHelper} from '../../helper/DeviceHelper';
 import {EditText} from '../EditText/EditText';
 import {Button} from '../Button';
 import {DatePickerView} from '../DatePicker/DatePickerView';
-import {open} from 'realm';
+import {Storage} from '../../core/Storage';
 
 export interface FloatingButtonModelProps {
   visible: boolean;
@@ -41,8 +41,29 @@ export const FloatingButtonModel: React.FC<FloatingButtonModelProps> = observer(
   }: FloatingButtonModelProps) => {
     const [open, setOpen] = useState(false);
 
+    const autoFillDefaultDate = () => {
+      if (!dateValue) {
+        onConfirm(new Date());
+      }
+    };
+
+    const autoFillFatPrice = () => {
+      Storage.getItemAsync(Storage.keys.fatPrice).then(result => {
+        if (result) {
+          onChangePrize(result);
+        }
+      });
+    };
+
     return (
-      <Modal animationType={'fade'} visible={visible} transparent={true}>
+      <Modal
+        animationType={'fade'}
+        visible={visible}
+        transparent={true}
+        onShow={() => {
+          autoFillFatPrice();
+          autoFillDefaultDate();
+        }}>
         <Box flex={1} backgroundColor={'transparent'}>
           <Pressable
             flex={0.1} // add Trash then flex 0.4
@@ -78,7 +99,7 @@ export const FloatingButtonModel: React.FC<FloatingButtonModelProps> = observer(
                 onConfirm={onConfirm}
                 textLabel={'Date'}
                 dateValue={dateValue}
-                placeholder={'date'}
+                placeholder={'Date'}
                 open={open}
                 onPressCalander={() => {
                   setOpen(true);

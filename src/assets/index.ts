@@ -8,4 +8,5 @@ export const Images = {
   plus: require('./pngs/plus.png'),
   calander: require('./pngs/calendar.png'),
   logo_two: require('./pngs/logo_two.png'),
+  logo_final: require('./pngs/logo.png'),
 };

@@ -15,7 +15,7 @@ export const SplashScreen: React.FC = observer(() => {
   const {replace} = useNavigation<StackNavigationProp<StackParamList>>();
 
   useEffect(() => {
-    // checkAndNavigate();
+    checkAndNavigate();
   }, []);
 
   const checkAndNavigate = async () => {
@@ -34,8 +34,21 @@ export const SplashScreen: React.FC = observer(() => {
         <Image
           height={DeviceHelper.calculateHeightRatio(250)}
           width={DeviceHelper.calculateWidthRatio(250)}
-          source={Images.logo}
+          source={Images.logo_final}
         />
+        <Box top={-16} justifyContent={'center'} alignItems={'center'}>
+          <Text fontFamily={fonts.regular} fontSize={24} color={'primary'}>
+            MilkCan
+          </Text>
+          <Text
+            letterSpacing={1}
+            marginTop={'es'}
+            fontFamily={fonts.regular}
+            fontSize={12}
+            color={'primary'}>
+            Milk pricing, made simple.
+          </Text>
+        </Box>
       </Box>
     </Screen>
   );

@@ -6,6 +6,7 @@ import {FloatingButtonModel} from '../Model/FloatingButtonModel';
 import {Images} from '../../assets';
 import {DeviceHelper} from '../../helper/DeviceHelper';
 import {Image} from '../Image';
+import {showErrorMessage} from '../../core/Utisl';
 
 export interface FloatingButtonProps {
   literValue: string;
@@ -18,6 +19,7 @@ export interface FloatingButtonProps {
   onChangeFat: (text: string) => void;
   onConfirm: (date: Date) => void;
   onAddPress: () => void;
+  onDismiss: () => void;
 }
 export const FloatingButton: React.FC<FloatingButtonProps> = observer(
   ({
@@ -31,6 +33,7 @@ export const FloatingButton: React.FC<FloatingButtonProps> = observer(
     onChangeDate,
     onAddPress,
     onConfirm,
+    onDismiss,
   }: FloatingButtonProps) => {
     const [visible, setModelVisible] = useState(false);
     return (
@@ -68,9 +71,17 @@ export const FloatingButton: React.FC<FloatingButtonProps> = observer(
           onConfirm={onConfirm}
           onClose={() => {
             setModelVisible(false);
+            onDismiss();
           }}
           onChangeDate={onChangeDate}
-          onAddPress={onAddPress}
+          onAddPress={() => {
+            if (prizeValue && fatValue && literValue && dateValue) {
+              onAddPress();
+              setModelVisible(false);
+            } else {
+              showErrorMessage('Please enter all required values');
+            }
+          }}
         />
       </Box>
     );

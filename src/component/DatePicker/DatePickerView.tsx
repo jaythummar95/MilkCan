@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {observer} from 'mobx-react-lite';
 import {Text} from '../Text';
 import {fonts} from '../../style/Fonts';
@@ -37,7 +37,7 @@ export const DatePickerView: React.FC<DatePickerProps> = observer(
     onCancel,
   }: DatePickerProps) => {
     return (
-      <Box opacity={disabled ? 0.5 : 1}>
+      <Pressable opacity={disabled ? 0.5 : 1} onPress={onPressCalander}>
         {isTextLabel && (
           <Text
             marginHorizontal={'r'}
@@ -55,7 +55,7 @@ export const DatePickerView: React.FC<DatePickerProps> = observer(
             isBottomMargin={false}
             placeholder={placeholder}
             keyboardType={'default'}
-            value={dateValue}
+            value={dateValue ? moment(dateValue).format('DD/MM/YYYY') : ''}
             isIcon={true}
             leftComponent={true}
             autoCapitalize={'none'}
@@ -67,7 +67,6 @@ export const DatePickerView: React.FC<DatePickerProps> = observer(
             height={DeviceHelper.calculateHeightRatio(55)}
             justifyContent={'center'}>
             <Pressable
-              onPress={onPressCalander}
               height={DeviceHelper.calculateHeightRatio(30)}
               width={DeviceHelper.calculateWidthRatio(30)}>
               <Image
@@ -91,7 +90,7 @@ export const DatePickerView: React.FC<DatePickerProps> = observer(
             />
           </Box>
         </Box>
-      </Box>
+      </Pressable>
     );
   },
 );

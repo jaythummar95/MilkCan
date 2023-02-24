@@ -12,11 +12,13 @@ import React from 'react';
 import theme from './src/style/Theme';
 import {ThemeProvider} from '@shopify/restyle';
 import {AppNavigation} from './src/navigation/AppNavigation';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AppNavigation />
+      <FlashMessage />
     </ThemeProvider>
   );
 };

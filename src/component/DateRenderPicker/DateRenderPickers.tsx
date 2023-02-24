@@ -47,7 +47,7 @@ export const DateRenderPickers: React.FC<DateRenderPickerProps> = observer(
               open={openStart}
               onPressCalander={onPressCalanderStart}
               isTextLabel={false}
-              placeholder={'Start Date'}
+              placeholder={'From Date'}
               onConfirm={onStartConfirm}
               dateValue={startDate}
               colors={true}
@@ -58,7 +58,7 @@ export const DateRenderPickers: React.FC<DateRenderPickerProps> = observer(
             <DatePickerView
               open={openEnd}
               onPressCalander={onPressCalanderEnd}
-              placeholder={'End Date'}
+              placeholder={'To Date'}
               onConfirm={onEndConfirm}
               dateValue={endDate}
               colors={true}

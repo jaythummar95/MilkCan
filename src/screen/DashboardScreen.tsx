@@ -9,16 +9,15 @@ import {addMilkEntry} from '../RealmDatabase/MilkEntryRealm';
 import moment from 'moment';
 import {userFactory} from '../factory/UserFactory';
 import {MilkEntryList} from '../model/MilkEntryList';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {StackParamList} from '../navigation/AppNavigation';
 import {DateRenderPickers} from '../component/DateRenderPicker/DateRenderPickers';
 import {ScrollView} from 'react-native';
 import {Text} from '../component/Text';
+import {showErrorMessage} from '../core/Utisl';
+import {Milk} from '../model/Milk';
+import {fonts} from '../style/Fonts';
+import {Storage} from '../core/Storage';
 
 export const DashboardScreen: React.FC = observer(() => {
-  const {navigation} = useNavigation<StackNavigationProp<StackParamList>>();
-  const {goBack} = useNavigation<StackNavigationProp<StackParamList>>();
   const [dateView, setDateViewVisible] = useState(false);
   const [date, setDate] = useState('');
   const [fat, setFat] = useState('');
@@ -40,11 +39,15 @@ export const DashboardScreen: React.FC = observer(() => {
     milkListItems.map(item => item.dateEntry),
   );
   const dataBaseOfMilkEntry = () => {
-    const totals = parseInt(prize) * parseInt(fat) * parseInt(liter);
-    addMilkEntry(date, liter, prize, fat, totals);
-    setTimeout(() => {
-      fetchMilkList();
-    }, 100);
+    if (prize && fat && liter && date) {
+      const totals = parseInt(prize) * parseInt(fat) * parseInt(liter);
+      addMilkEntry(date, liter, prize, fat, totals);
+      setTimeout(() => {
+        fetchMilkList();
+      }, 100);
+    } else {
+      showErrorMessage('Please enter all required values');
+    }
   };
 
   const fetchMilkList = () => {
@@ -58,35 +61,26 @@ export const DashboardScreen: React.FC = observer(() => {
     fetchMilkList();
   }, []);
 
-  useEffect(() => {
-    milkListItems;
-  }, []);
+  useEffect(() => {}, [milkListItems]);
 
-  setTimeout(() => {
-    totalMultiplay();
-  }, 1000);
+  const getDateYYYMMDD = (dateString: string) => {
+    return moment(moment(dateString).format('YYYY-MM-DD')).toDate();
+  };
 
   const startEndDateFilter = () => {
-    const data = milkListItems.filter(
-      (item: any) =>
-        moment(item.dateEntry).format('YYYY-MM-DD') >=
-          moment(startDate).format('YYYY-MM-DD') &&
-        moment(item.dateEntry).format('YYYY-MM-DD') <=
-          moment(endDate).format('YYYY-MM-DD'),
+    const data = milkListItems.getFilteredList(
+      (item: Milk) =>
+        getDateYYYMMDD(item.dateEntry) >= getDateYYYMMDD(startDate) &&
+        getDateYYYMMDD(item.dateEntry) <= getDateYYYMMDD(endDate),
+      new MilkEntryList(),
     );
-    setFilter(data);
-    return data;
-  };
-  const totalMultiplay = () => {
-    let sum = 0;
-    console.log(
-      'filter',
-      filter.map(item => item.dateEntry),
-    );
-    filter.map(item => (sum += item.totalEntry));
-    setTotal(sum);
-  };
 
+    let sum = 0;
+    data.map(item => (sum += item.totalEntry));
+
+    setTotal(sum);
+    setFilter(data);
+  };
   return (
     <Screen>
       <Box flex={1}>
@@ -105,13 +99,11 @@ export const DashboardScreen: React.FC = observer(() => {
               openEnd={openEnd}
               openStart={openStart}
               onStartConfirm={dat => {
-                const formattedTime = moment(dat).format('YYYY-MM-DD');
-                setStartDate(formattedTime);
+                setStartDate(moment(dat).format('YYYY-MM-DD hh:mm:ss'));
                 setOpenStart(false);
               }}
               onEndConfirm={dat => {
-                const formattedTime = moment(dat).format('YYYY-MM-DD');
-                setEndDate(formattedTime);
+                setEndDate(moment(dat).format('YYYY-MM-DD hh:mm:ss'));
                 setOpenEnd(false);
               }}
               onPressCalanderEnd={() => {
@@ -166,6 +158,7 @@ export const DashboardScreen: React.FC = observer(() => {
             setLiter(text);
           }}
           onChangePrize={text => {
+            Storage.setItemAsync(Storage.keys.fatPrice, text);
             setPrize(text);
           }}
           onConfirm={dat => {
@@ -180,11 +173,24 @@ export const DashboardScreen: React.FC = observer(() => {
             setLiter('');
             setPrize('');
           }}
+          onDismiss={() => {
+            setDate('');
+            setFat('');
+            setLiter('');
+            setPrize('');
+          }}
         />
         {!filterDataView && (
-          <Box backgroundColor={'primary'} alignItems={'center'}>
-            <Text color={'bgColor'} fontSize={30}>
-              Total:{total}
+          <Box
+            backgroundColor={'primary'}
+            alignItems={'center'}
+            marginBottom={'sr'}
+            height={48}
+            borderRadius={5}
+            justifyContent={'center'}
+            marginHorizontal={'sr'}>
+            <Text color={'bgColor'} fontSize={20} fontFamily={fonts.regular}>
+              {`Total : ${total} `}
             </Text>
           </Box>
         )}
