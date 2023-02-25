@@ -19,7 +19,7 @@ export const DashboardCell: React.FC<DashboardCellProps> = observer(
       {name: 'Date'},
       {name: 'Liter'},
       {name: 'Fat'},
-      {name: 'Prise'},
+      {name: 'Price'},
       {name: 'Total'},
     ];
 

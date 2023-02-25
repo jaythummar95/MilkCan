@@ -18,25 +18,31 @@ export class InvoiceGenerator {
 
       listHTML =
         listHTML +
-        `<div>
-           <p>Date: ${date}</p> 
-           <p>Litter: ${litter}</p> 
-           <p>Fat: ${fat}</p> 
-           <p>Prise: ${prise}</p> 
-           <p>Total: ${totalInRaw}</p>
-         </div>
-         </br>`;
+        `<tr style="border: 1px solid black">
+           <td style="border: 1px solid black; text-align: center;">${date}</td> 
+           <td style="border: 1px solid black; text-align: center;">${litter}</td> 
+           <td style="border: 1px solid black; text-align: center;">${fat}</td> 
+           <td style="border: 1px solid black; text-align: center;">${prise}</td> 
+           <td style="border: 1px solid black; text-align: center;">${totalInRaw}</td>
+         </tr>
+        `;
     });
 
     let options = {
       html: `<div>
               <h1>MilkCan</h1>
-              </br>
               <h2>Invoice : ${new Date().getTime()}</h2>
+              <table style="width:100%; border: 1px solid black">
+               <tr style="border: 1px solid black">
+                 <th style="border: 1px solid black; text-align: center;">Date</th> 
+                 <th style="border: 1px solid black; text-align: center;">Litter</th> 
+                 <th style="border: 1px solid black; text-align: center;">Fat</th> 
+                 <th style="border: 1px solid black; text-align: center;">Price</th> 
+                 <th style="border: 1px solid black; text-align: center;">Total</th>
+               </tr>
+              ${listHTML}</table>
               </br>
-               ${listHTML}
-              </br>
-              <h1>Total : ${total}</h1>
+              <h1 style="text-align: right">Total : ${total}</h1>
              </div>`,
       fileName: fileName,
       directory: 'Documents',
