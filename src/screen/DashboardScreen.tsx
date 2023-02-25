@@ -26,6 +26,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../navigation/AppNavigation';
 import {Pressable} from '../component/Pressable';
 import {addHistory} from '../RealmDatabase/HistoryRealm';
+import {invoiceGenerator} from '../helper/InvoiceGenerator';
 
 export const DashboardScreen: React.FC = observer(() => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -236,7 +237,7 @@ export const DashboardScreen: React.FC = observer(() => {
               <Pressable
                 flex={1}
                 onPress={() => {
-                  //TODO: Export
+                  invoiceGenerator.createPDF(filter, total);
                 }}
                 backgroundColor={'primary'}
                 alignItems={'center'}
