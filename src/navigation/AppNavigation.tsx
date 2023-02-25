@@ -7,6 +7,7 @@ import {DashboardScreen} from '../screen/DashboardScreen';
 import {StartEndDateFilterScreen} from '../screen/StartEndDateFilterScreen';
 import {HistoryScreen} from '../screen/HistoryScreen';
 import {ContactUsScreen} from '../screen/ContactUsScreen';
+import { SecurityVerificationScreen } from "../screen/SecurityVerificationScreen";
 
 export type StackParamList = {
   SplashScreen: undefined;
@@ -14,6 +15,7 @@ export type StackParamList = {
   StartEndDateFilterScreen: undefined;
   HistoryScreen: undefined;
   ContactUsScreen: undefined;
+  SecurityVerificationScreen: undefined;
 };
 const Stack = createStackNavigator<StackParamList>();
 
@@ -23,6 +25,7 @@ export enum Route {
   StartEndDateFilter = 'StartEndDateFilterScreen',
   History = 'HistoryScreen',
   ContactUs = 'ContactUsScreen',
+  SecurityVerification = 'SecurityVerificationScreen',
 }
 
 export const AppNavigation: React.FC = observer(() => {
@@ -41,6 +44,7 @@ export const AppNavigation: React.FC = observer(() => {
         />
         <Stack.Screen name={Route.History} component={HistoryScreen} />
         <Stack.Screen name={Route.ContactUs} component={ContactUsScreen} />
+        <Stack.Screen name={Route.SecurityVerification} component={SecurityVerificationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
