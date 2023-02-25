@@ -1,7 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react-lite';
 import {Box} from './Box';
-import {Text} from './Text';
 import {Pressable} from './Pressable';
 import {Image} from './Image';
 import {Images} from '../assets';

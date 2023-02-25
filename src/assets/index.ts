@@ -9,4 +9,6 @@ export const Images = {
   calander: require('./pngs/calendar.png'),
   logo_two: require('./pngs/logo_two.png'),
   logo_final: require('./pngs/logo.png'),
+  PhoneCall: require('./pngs/PhoneCall.png'),
+  WhatsApp: require('./pngs/WhatsApp.png'),
 };

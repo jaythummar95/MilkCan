@@ -41,15 +41,10 @@ export class SideMenu extends React.Component<SideMenuProps, any> {
           },
         },
         {
-          title: 'About Us',
-          onPress: () => {
-            this.hideModal();
-          },
-        },
-        {
           title: 'Contact Us',
           onPress: () => {
             this.hideModal();
+            this.props.navigation.navigate(Route.ContactUs);
           },
         },
       ],
