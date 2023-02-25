@@ -1,28 +1,27 @@
+import React from 'react';
 import {Box} from '../component/Box';
-import {Text} from '../component/Text';
-import {userFactory} from '../factory/UserFactory';
-import {useEffect, useState} from 'react';
-import {HistoryList} from '../model/HistoryList';
+import {Screen} from '../component/Screen';
+import {HomeHeader} from '../HomeHeader/HomeHeader';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StackParamList} from '../navigation/AppNavigation';
+import {HistoryView} from '../component/History/HistoryView';
 
 export const HistoryScreen = () => {
-  const [historyList, setHistoryList] = useState(new HistoryList());
-
-  const getHistoryFromDB = () => {
-    userFactory.history().then(res => {
-      console.log('response', res.data);
-      setHistoryList(res.getValue());
-    });
-  };
-
-  useEffect(() => {
-    getHistoryFromDB();
-  }, []);
+  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
 
   return (
-    <Box>
-      {historyList.map(() => {
-        return <Text> History</Text>;
-      })}
-    </Box>
+    <Screen>
+      <Box>
+        <HomeHeader
+          onMenuPress={() => {
+            navigation.goBack();
+          }}
+          isMenu={false}
+          label2={'History'}
+        />
+        <HistoryView />
+      </Box>
+    </Screen>
   );
 };

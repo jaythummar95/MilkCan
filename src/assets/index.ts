@@ -1,7 +1,7 @@
 export const Images = {
   book: require('./pngs/Book.png'),
   logo: require('./pngs/logo.jpeg'),
-  leftArrow: require('./pngs/LeftArrow.png'),
+  leftArrow: require('./pngs/left_arrow.png'),
   menu: require('./pngs/menu.png'),
   filter: require('./pngs/filter.png'),
   close: require('./pngs/close.png'),

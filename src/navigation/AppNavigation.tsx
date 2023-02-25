@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {SplashScreen} from '../screen/SplashScreen';
 import {DashboardScreen} from '../screen/DashboardScreen';
 import {StartEndDateFilterScreen} from '../screen/StartEndDateFilterScreen';
-import { HistoryScreen } from "../screen/HistoryScreen";
+import {HistoryScreen} from '../screen/HistoryScreen';
 
 export type StackParamList = {
   SplashScreen: undefined;

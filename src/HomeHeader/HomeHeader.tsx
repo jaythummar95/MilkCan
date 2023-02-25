@@ -12,6 +12,7 @@ import {Text} from '../component/Text';
 export interface HomeHeaderProps {
   onFilterPress?: () => void;
   onHolidayPress?: () => void;
+  onMenuPress?: () => void;
   onNotificationPress?: () => void;
   onBackPress?: () => void;
   isMenu?: boolean;
@@ -23,7 +24,13 @@ export interface HomeHeaderProps {
 }
 
 export const HomeHeader: React.FC<HomeHeaderProps> = observer(
-  ({onHolidayPress, onFilterPress, isMenu, label2}: HomeHeaderProps) => {
+  ({
+    onHolidayPress,
+    onFilterPress,
+    isMenu,
+    label2,
+    onMenuPress,
+  }: HomeHeaderProps) => {
     return (
       <Box
         backgroundColor={'primary'}
@@ -36,7 +43,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = observer(
           {isMenu ? (
             <Box flex={0.5} justifyContent={'center'} marginTop={'sr'}>
               <Pressable
-                onPress={onHolidayPress}
+                onPress={onMenuPress}
                 height={DeviceHelper.calculateHeightRatio(40)}
                 width={DeviceHelper.calculateWidthRatio(40)}>
                 <Image
@@ -50,7 +57,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = observer(
           ) : (
             <Box flex={0.5} justifyContent={'center'} marginTop={'sr'}>
               <Pressable
-                onPress={onHolidayPress}
+                onPress={onMenuPress}
                 height={DeviceHelper.calculateHeightRatio(40)}
                 width={DeviceHelper.calculateWidthRatio(40)}>
                 <Image
@@ -72,16 +79,18 @@ export const HomeHeader: React.FC<HomeHeaderProps> = observer(
             </Text>
           </Box>
 
-          <Box flex={0.5} justifyContent={'center'} alignItems={'flex-end'}>
-            <Pressable onPress={onFilterPress}>
-              <Image
-                source={Images.filter}
-                resizeMode={'center'}
-                height={DeviceHelper.calculateHeightRatio(30)}
-                width={DeviceHelper.calculateWidthRatio(30)}
-              />
-            </Pressable>
-          </Box>
+          {onFilterPress && (
+            <Box flex={0.5} justifyContent={'center'} alignItems={'flex-end'}>
+              <Pressable onPress={onFilterPress}>
+                <Image
+                  source={Images.filter}
+                  resizeMode={'center'}
+                  height={DeviceHelper.calculateHeightRatio(30)}
+                  width={DeviceHelper.calculateWidthRatio(30)}
+                />
+              </Pressable>
+            </Box>
+          )}
         </Box>
       </Box>
     );

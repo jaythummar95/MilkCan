@@ -12,12 +12,23 @@ import {MilkEntryList} from '../model/MilkEntryList';
 import {DateRenderPickers} from '../component/DateRenderPicker/DateRenderPickers';
 import {ScrollView} from 'react-native';
 import {Text} from '../component/Text';
-import {showErrorMessage} from '../core/Utisl';
+import {showErrorMessage, showSuccessMessage} from '../core/Utisl';
 import {Milk} from '../model/Milk';
 import {fonts} from '../style/Fonts';
 import {Storage} from '../core/Storage';
+import {
+  refSideMenu,
+  showSideMenu,
+  SideMenu,
+} from '../component/SideMenu/SideMenu';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StackParamList} from '../navigation/AppNavigation';
+import {Pressable} from '../component/Pressable';
+import {addHistory} from '../RealmDatabase/HistoryRealm';
 
 export const DashboardScreen: React.FC = observer(() => {
+  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [dateView, setDateViewVisible] = useState(false);
   const [date, setDate] = useState('');
   const [fat, setFat] = useState('');
@@ -86,6 +97,7 @@ export const DashboardScreen: React.FC = observer(() => {
       <Box flex={1}>
         <HomeHeader
           isMenu={true}
+          onMenuPress={() => showSideMenu()}
           label2={'MilkCan'}
           onFilterPress={() => {
             setDateViewVisible(!dateView);
@@ -181,20 +193,71 @@ export const DashboardScreen: React.FC = observer(() => {
           }}
         />
         {!filterDataView && (
-          <Box
-            backgroundColor={'primary'}
-            alignItems={'center'}
-            marginBottom={'sr'}
-            height={48}
-            borderRadius={5}
-            justifyContent={'center'}
-            marginHorizontal={'sr'}>
-            <Text color={'bgColor'} fontSize={20} fontFamily={fonts.regular}>
-              {`Total : ${total} `}
-            </Text>
+          <Box>
+            <Box
+              backgroundColor={'primary'}
+              alignItems={'center'}
+              marginBottom={'sr'}
+              height={48}
+              borderRadius={5}
+              justifyContent={'center'}
+              marginHorizontal={'sr'}>
+              <Text color={'bgColor'} fontSize={20} fontFamily={fonts.regular}>
+                {`Total : ${total} `}
+              </Text>
+            </Box>
+            <Box flexDirection={'row'}>
+              <Pressable
+                flex={1}
+                onPress={() => {
+                  addHistory(
+                    moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+                    startDate,
+                    endDate,
+                    total,
+                  );
+                  showSuccessMessage('History added successfully');
+                }}
+                backgroundColor={'primary'}
+                alignItems={'center'}
+                marginBottom={'sr'}
+                height={48}
+                borderRadius={5}
+                justifyContent={'center'}
+                marginStart={'sr'}
+                marginRight={'es'}>
+                <Text
+                  color={'bgColor'}
+                  fontSize={16}
+                  fontFamily={fonts.regular}>
+                  {'Save to history'}
+                </Text>
+              </Pressable>
+              <Pressable
+                flex={1}
+                onPress={() => {
+                  //TODO: Export
+                }}
+                backgroundColor={'primary'}
+                alignItems={'center'}
+                marginBottom={'sr'}
+                height={48}
+                borderRadius={5}
+                justifyContent={'center'}
+                marginEnd={'sr'}
+                marginStart={'es'}>
+                <Text
+                  color={'bgColor'}
+                  fontSize={16}
+                  fontFamily={fonts.regular}>
+                  {'Export'}
+                </Text>
+              </Pressable>
+            </Box>
           </Box>
         )}
       </Box>
+      <SideMenu ref={refSideMenu} navigation={navigation} />
     </Screen>
   );
 });
